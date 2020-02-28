@@ -65,12 +65,17 @@ public class SimpleList
 	 * If there are other integers in the list, their indexes are decreased by 1
 	 * if they were after the removed integer.
 	 * If the integer appears in the list multiple times, 
-	 * all instances are removed.
+	 * only the first instance is removed.
 	 * 
 	 * @param	removeFromListNum	This is the integer being removed form the list.
 	 */
 	public void remove(int removeFromListNum)
 	{
+		/**
+		 * Only remove the first instance of the integer.
+		 */
+		boolean removed = false;
+		
 		/**
 		 * Only remove if the integer is found in the list.
 		 */
@@ -78,13 +83,14 @@ public class SimpleList
 		{
 			for (int indexRemove = 0; indexRemove < count; indexRemove++)
 			{
-				if (list[indexRemove] == removeFromListNum)
+				if (list[indexRemove] == removeFromListNum && !removed)
 				{			
 					count--;
 					for (int indexAdjust = indexRemove; indexAdjust < count; indexAdjust++)
 					{
 						list[indexAdjust] = list[indexAdjust + 1];
 					}
+					removed = true;
 				}
 			}
 		}
@@ -112,7 +118,12 @@ public class SimpleList
 		
 		for (int index = 0; index < count; index++)
 		{
-			listString = listString + list[index] + " ";
+			if (index > 0)
+			{
+				listString = listString + " ";
+			}
+			
+			listString = listString + list[index];
 		}
 		
 		return listString;
