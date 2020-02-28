@@ -19,7 +19,7 @@ public class SimpleList
 	/**
 	 * 10 is initially the maximum number of integers in the list.
 	 */
-	private int full = 10;
+	private int size = 10;
 
 	/**
 	 * Constructor for the class SimpleList.
@@ -35,34 +35,33 @@ public class SimpleList
 	/**
 	 * Adds an integer to the list at index 0.
 	 * If there are other integers in the list, their indexes 
-	 * are all increased by 1. If the list is full,
-	 * the last item in the list (index 9) is dropped off the list.
+	 * are all increased by 1.If the list was initially full, 
+	 * increase its size by 50% so there will be room.
 	 * 
 	 * @param	newListNum	This is the integer being added to the list.
 	 */
 	public void add(int newListNum)
-	{	
+	{
 		/**
-		 * If the list is full, decrease the size by 1.
-		 * The purpose of this is to get rid of the integer on the end of the list.
+		 * If the list was initially full:
+		 * 1) Create a temporary list.
+		 * 2) Increase the max list size by 50%.
+		 * 3) Copy the list to the temporary list.
+		 * 4) Increase the size of the list array in accordance with max size.
+		 * 5) Copy the temporary list back to the list.
 		 */
-		if (count == full)
+		if (count == size)
 		{
-			/**
-			 * If the list was initially full:
-			 * 1) Create a temporary list.
-			 * 2) Increase the max list size by 50%.
-			 * 3) Copy the list to the temporary list.
-			 * 4) Increase the size of the list array in accordance with max size.
-			 * 5) Copy the temporary list back to the list.
-			 */
-			int[] tempList = new int[full];
-			full = (int)(full*1.5);
+			int[] tempList = new int[size];
+			size = (int)(size * 1.5);
+			
 			for (int i = 0; i < count; i++)
 			{
 				tempList[i] = list[i];
 			}
-			list = new int[full];
+			
+			list = new int[size];
+			
 			for (int i = 0; i < count; i++)
 			{
 				list[i] = tempList[i];
@@ -84,6 +83,8 @@ public class SimpleList
 	 * if they were after the removed integer.
 	 * If the integer appears in the list multiple times, 
 	 * only the first instance is removed.
+	 * If the list has more than 25% empty places, decrease the list size by 25%
+	 * to a minimum of length 1.
 	 * 
 	 * @param	removeFromListNum	This is the integer being removed form the list.
 	 */
@@ -114,24 +115,26 @@ public class SimpleList
 		}
 		
 		/**
-		 * If the list has more than 25% empty places, decrease the list size by 25%.
 		 * This follows the same procedure as in add with a few differences:
 		 * 1) Decreases by 25% instead of increasing by 50%.
 		 * 2) Minimum list size is set to 1.
 		 */
-		if (full*0.75 >= count)
+		if (size * 0.75 > count)
 		{
-			int[] tempList = new int[full];
-			full = (int)(full*0.75);
-			if (full < 1)
+			int[] tempList = new int[size];
+			size = (int)(size * 0.75);
+			if (size < 1)
 			{
-				full = 1;
+				size = 1;
 			}
+			
 			for (int i = 0; i < count; i++)
 			{
 				tempList[i] = list[i];
 			}
-			list = new int[full];
+			
+			list = new int[size];
+			
 			for (int i = 0; i < count; i++)
 			{
 				list[i] = tempList[i];
@@ -194,39 +197,84 @@ public class SimpleList
 		return searchIndex;
 	}
 	
-//	public static void main(String args[])
-//	{
-//		SimpleList list = new SimpleList();
-//		list.add(1);
-//		list.add(2);
-//		list.add(3);
-//		list.remove(2);
-//		System.out.println(list.toString());
-//		System.out.println(list.full);
-//		
-//		list = new SimpleList();
-//		list.add(1);
-//		list.add(2);
-//		list.add(3);
-//		list.add(4);
-//		list.add(5);
-//		list.add(6);
-//		list.add(7);
-//		list.add(8);
-//		list.add(9);
-//		list.add(10);
-//		list.add(11);
-//		list.add(12);
-//		list.remove(2);
-//		System.out.println(list.toString());
-//		System.out.println(list.full);
-//		
-//		list = new SimpleList();
-//		list.add(1);
-//		list.add(2);
-//		list.add(3);
-//		list.remove(2);
-//		System.out.println(list.toString());
-//		System.out.println(list.full);
-//	}
+	/**
+	 * Append the integer to the end of the list.
+	 * If the list is full, increase the size by 50% so there will be room.
+	 * Lastly increment the count.
+	 * 
+	 * @param	append		This is the integer being appended to the list.
+	 */
+	public void append(int append)
+	{
+		/**
+		 * This is the same list expanding as in add().
+		 */
+		if (count == size)
+		{
+			int[] tempList = new int[size];
+			size = (int)(size * 1.5);
+			
+			for (int i = 0; i < count; i++)
+			{
+				tempList[i] = list[i];
+			}
+			
+			list = new int[size];
+			
+			for (int i = 0; i < count; i++)
+			{
+				list[i] = tempList[i];
+			}
+		}
+		
+		list[count] = append;		
+		count++;
+	}
+	
+	/**
+	 * Return the first element of the list.
+	 * If the list is empty, return -1.
+	 * 
+	 * @return	first	This is the first element in the list.
+	 */
+	public int first()
+	{
+		int first = -1;
+		
+		if (count > 0)
+		{
+			first = list[0];
+		}
+		
+		return first;
+	}
+	
+	/**
+	 * Return the last element of the list.
+	 * If the list is empty, return -1.
+	 * 
+	 * @return	last	This is the last element in the list.
+	 */
+	public int last()
+	{
+		int last = -1;
+		
+		if (count > 0)
+		{
+			last = list[count - 1];
+		}
+		
+		return last;
+	}
+	
+	/**
+	 * Return the size of the list array.
+	 * 
+	 * @return	size	This is the size of the list array.
+	 */
+	public int size()
+	{
+		return size;
+	}
+	
 }
