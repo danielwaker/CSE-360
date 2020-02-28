@@ -1,11 +1,14 @@
 /**
  * Name: Daniel Verhagen
  * ID: 344
- * Assignment: 1
+ * Assignment: 2
  * Description: This contains the class SimpleList. It allows you to 
  * 				create a list of integers, add and remove integers,
- * 				return how long the list is, search for an integers, and
- * 				and return a string of the list of integers.
+ * 				return how long the list is, search for an integers,
+ * 				return a string of the list of integers, return the
+ * 				first and last integers, return the current list
+ * 				array size, and append an integer to the end of the
+ * 				list.
  */
 
 package cse360assign2;
