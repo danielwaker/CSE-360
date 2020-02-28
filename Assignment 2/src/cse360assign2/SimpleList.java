@@ -9,6 +9,8 @@
  * 				first and last integers, return the current list
  * 				array size, and append an integer to the end of the
  * 				list.
+ * 
+ * GitHub Link: https://github.com/danielwaker/CSE-360
  */
 
 package cse360assign2;
